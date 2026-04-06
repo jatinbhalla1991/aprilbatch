@@ -28,7 +28,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: Assignment Task
         run: |
-          mkdir folder1
-          cd folder1 | echo "test" > file1.txt 
-          cd .. | mkdir folder2
-          cp ./folder1/file1.txt ./folder2/
+            mkdir Folder1
+            echo Hello World > Folder1\file.txt
+            mkdir Folder2
+            copy Folder1\file.txt Folder2\
+          
