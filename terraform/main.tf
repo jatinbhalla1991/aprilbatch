@@ -10,10 +10,10 @@ resource "aws_instance" "example" {
 }
 
 
-resource "aws_s3_bucket" "example_bucket" {
-  bucket = "example-bucket-terraform-2024"
+# resource "aws_s3_bucket" "example_bucket" {
+#   bucket = "example-bucket-terraform-2024"
 
-  tags = {
-    Name = "ExampleBucket"
-  }
-}
+#   tags = {
+#     Name = "ExampleBucket"
+#   }
+# }
