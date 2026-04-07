@@ -20,6 +20,7 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    if: github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy'
 
     permissions:
       contents: read
@@ -50,7 +51,11 @@ jobs:
         id: plan
         run: |
           cd terraform-assignment
-          terraform plan -no-color -out=tfplan
+          if [ "${{ github.event.inputs.action }}" = "destroy" ]; then
+            terraform plan -no-color -out=tfplan -destroy
+          else
+            terraform plan -no-color -out=tfplan
+          fi
         continue-on-error: true
 
       - name: Terraform Plan Status
@@ -83,19 +88,19 @@ jobs:
   approval:
     needs: terraform
     runs-on: ubuntu-latest
-    if: success()
+    if: success() && (github.event.inputs.action == 'plan' || github.event.inputs.action == 'destroy')
 
     environment:
       name: production
 
     steps:
       - name: Waiting for approval
-        run: echo "Waiting for manual approval to proceed..."
+        run: echo "Waiting for manual approval to proceed with ${{ github.event.inputs.action }}..."
 
   apply:
     needs: [terraform, approval]
     runs-on: ubuntu-latest
-    if: success()
+    if: success() && github.event.inputs.action == 'plan'
 
     permissions:
       contents: read
@@ -132,9 +137,43 @@ jobs:
           cd terraform-assignment
           terraform apply -no-color -auto-approve tfplan
 
-      - name: Upload Apply Output
+  destroy:
+    needs: approval
+    runs-on: ubuntu-latest
+    if: success() && github.event.inputs.action == 'destroy'
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        run: |
+          cd terraform-assignment
+          terraform init -no-color -backend-config=backend.tfvars
+
+      - name: Terraform Destroy
+        run: |
+          cd terraform-assignment
+          terraform destroy -no-color -auto-approve
+
+      - name: Upload Destroy Output
         uses: actions/upload-artifact@v4
         with:
-          name: apply-output
+          name: destroy-output
           path: terraform-assignment/
           retention-days: 30
