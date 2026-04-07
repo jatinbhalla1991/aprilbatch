@@ -5,14 +5,38 @@ resource "aws_ecr_repository" "ecr_repository" {
   }
 }
 
+resource "aws_iam_role" "eks_role" {
+  name = "example-eks-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "eks.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "eks_role_attachment" {
+  name       = "example-eks-role-attachment"
+  roles      = [aws_iam_role.eks_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
 resource "aws_eks_cluster" "eks_cluster" {
   name     = "example-eks-cluster"
-  role_arn = "arn:aws:iam::980637429038:role/AmazonEKSAutoNodeRole"
+  role_arn = aws_iam_role.eks_role.arn
 
   vpc_config {
-    subnet_ids = ["subnet-0ef199d7f17c4e3f2", "subnet-065e64e60fd24c32a"]
+    subnet_ids = data.aws_subnet_ids.default.ids
   }
 
+  depends_on = [ aws_iam_policy_attachment.eks_role_attachment ]
   tags = {
     "Name" = "ExampleEKSCluster"
   }
