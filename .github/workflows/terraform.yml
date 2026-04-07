@@ -44,7 +44,7 @@ jobs:
       - name: Terraform Init
         run: |
           cd terraform-assignment
-          terraform init
+          terraform init -no-color -backend-config=backend.tfvars
 
       - name: Terraform Plan
         id: plan
