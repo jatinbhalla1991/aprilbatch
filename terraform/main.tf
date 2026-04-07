@@ -1,10 +1,11 @@
 
 resource "aws_instance" "example" {
+  for_each      = var.instance_type
   ami           = var.ami_id
-  instance_type = var.instance_type
+  instance_type = each.value
 
   tags = {
-    Name = "jatin"
+    Name = each.key
   }
 }
 

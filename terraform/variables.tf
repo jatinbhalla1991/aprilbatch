@@ -4,7 +4,9 @@ variable ami_id {
 }
 
 variable instance_type {
-  description = "The type of the EC2 instance."
-  type        = string
-  default     = "t2.micro"
+  description = "Map of instance names to instance types. Each entry creates one EC2 instance."
+  type        = map(string)
+  default     = {
+    "instance1" = "t2.micro"
+  }
 }
