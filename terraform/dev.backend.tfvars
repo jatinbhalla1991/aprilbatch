@@ -1,3 +1,3 @@
-bucket = "my-terraform-state-1991"
+bucket = "example-bucket-terraform-2024"
 key    = "dev/terraform.tfstate"
-region = "us-east-1"
+region = "ap-south-1"

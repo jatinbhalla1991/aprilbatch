@@ -1,4 +1,4 @@
-ami_id = "ami-0ec10929233384c7f"
+ami_id = "ami-045443a70fafb8bbc"
 instance_type = {
-  "web-server-1"    = "t2.micro"
+  "web-server-1"    = "t3.micro"
 }
