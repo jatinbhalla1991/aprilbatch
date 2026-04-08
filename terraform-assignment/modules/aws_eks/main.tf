@@ -6,7 +6,6 @@ resource "aws_eks_cluster" "eks_cluster" {
     subnet_ids = var.vpc_config.subnet_ids
   }
 
-  depends_on = [var.dependency]
   tags = var.tags
 
 }

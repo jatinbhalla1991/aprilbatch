@@ -1,9 +1,9 @@
 variable "name" {
   description = "The name of the ECR repository"
-  type = string
+  type        = string
 }
 
 variable "tags" {
   description = "A map of tags to assign to the ECR repository"
-  type = map(string)
+  type        = map(string)
 }

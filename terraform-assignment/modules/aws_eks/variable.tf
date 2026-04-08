@@ -1,15 +1,15 @@
 variable "name" {
-  type = string
+  type        = string
   description = "The name of the EKS cluster"
 }
 
 variable "role_arn" {
-  type = string
+  type        = string
   description = "role arn"
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
   description = "Tags for the EKS cluster"
 }
 
@@ -18,8 +18,4 @@ variable "vpc_config" {
     subnet_ids = list(string)
   })
   description = "VPC configuration for the EKS cluster"
-}
-variable "dependency" {
-  type = string
-  description = "List of dependencies for the EKS cluster"
 }
