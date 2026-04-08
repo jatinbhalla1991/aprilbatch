@@ -20,6 +20,6 @@ variable "vpc_config" {
   description = "VPC configuration for the EKS cluster"
 }
 variable "dependency" {
-  type = list(string)
+  type = string
   description = "List of dependencies for the EKS cluster"
 }

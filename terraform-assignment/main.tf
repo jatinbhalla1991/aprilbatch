@@ -37,5 +37,5 @@ module "aws_eks" {
   tags = {
     "Name" = "ExampleEKSCluster"
   }
-  dependency = [ aws_iam_policy_attachment.eks_role_attachment]
+  dependency = aws_iam_policy_attachment.eks_role_attachment
 }
