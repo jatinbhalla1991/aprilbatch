@@ -1,0 +1,8 @@
+https://git-scm.com/cheat-sheet
+https://git-scm.com/install/windows
+https://docs.docker.com/desktop/setup/install/windows-install/
+https://code.visualstudio.com/download
+https://hub.docker.com/
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+https://developer.hashicorp.com/terraform
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs

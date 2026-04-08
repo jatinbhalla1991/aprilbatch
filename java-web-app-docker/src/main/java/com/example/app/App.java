@@ -1,29 +1,49 @@
 package com.example.app;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
- * Simple Java Application with Intentional Code Duplication for Testing
+ * Spring Boot Web Application
  */
+@SpringBootApplication
+@RestController
 public class App {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
-        System.out.println("This is a sample Java application");
-        
-        // Testing different features
-        processUserData("John", 25, "Engineer");
-        processEmployeeData("Jane", 30, "Manager");
-        processCustomerData("Bob", 35, "Client");
-        
-        calculateTotal(100, 200);
-        calculateSum(150, 250);
-        
-        if (args.length > 0) {
-            System.out.println("Arguments received:");
-            for (int i = 0; i < args.length; i++) {
-                System.out.println("  Arg " + i + ": " + args[i]);
-            }
-        }
-        
-        System.out.println("Application completed successfully!");
+        SpringApplication.run(App.class, args);
+        System.out.println("Application started successfully!");
+    }
+
+    @GetMapping("/")
+    public String home() {
+        return "Welcome to Java Web Application! The server is running.";
+    }
+
+    @GetMapping("/api/greeting")
+    public String greeting() {
+        return "Hello from Java Web Application!";
+    }
+
+    @GetMapping("/api/greeting/{name}")
+    public String greetingWithName(@PathVariable String name) {
+        return "Hello, " + name + "! Welcome to our Java application.";
+    }
+
+    @GetMapping("/api/health")
+    public String health() {
+        return "{\"status\": \"UP\", \"message\": \"Application is healthy\"}";
+    }
+
+    @GetMapping("/api/info")
+    public String info() {
+        return "{\n" +
+                "  \"app\": \"Java Web Application\",\n" +
+                "  \"version\": \"1.0.0\",\n" +
+                "  \"timestamp\": \"" + System.currentTimeMillis() + "\"\n" +
+                "}";
     }
     
     // DUPLICATE CODE BLOCK 1 - Intentional duplication
