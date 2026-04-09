@@ -9,7 +9,7 @@ public class AppController {
 
     @GetMapping("/")
     public String home() {
-        return "Hello, World! Welcome to the Java Docker World!";
+        return "Hello, Tarun! This is a Spring Boot application running in a Docker container.";
     }
 
 }

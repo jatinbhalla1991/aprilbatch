@@ -5,8 +5,13 @@ services:
     image: tarunsepta/java-sample-app:latest
     ports:
       - "8081:8081"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - mysql-db
+      - redis-cache
+    networks:
+      appnet:
+        aliases:
+          - java-app
   mysql-db:
     image: mysql:latest
     environment:
@@ -14,7 +19,18 @@ services:
       MYSQL_DATABASE: mydatabase
     ports:
       - "3306:3306"
+    networks:
+      appnet:
+        aliases:
+          - db
   redis-cache:
     image: redis:latest
     ports:
       - "6379:6379"
+    networks:
+      appnet:
+        aliases:
+          - redis
+networks:
+  appnet:
+    driver: bridge
